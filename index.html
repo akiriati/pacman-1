@@ -50,35 +50,26 @@
 
   <script>
 
-  // Initialize Firebase
-  var config = {
-        apiKey: "AIzaSyAHzvy8klcz7CPZv4B3MCgE7r3E1TM6Zk4",
-        authDomain: "multiplayer-pacman-59ff2.firebaseapp.com",
-        databaseURL: "https://multiplayer-pacman-59ff2.firebaseio.com",
-        projectId: "multiplayer-pacman-59ff2",
-        storageBucket: "",
-        messagingSenderId: "",
-        };
-        firebase.initializeApp(config);
-        var defaultDatabase = firebase.database();
+      // Initialize Firebase
+      var config = {
+          apiKey: "AIzaSyAHzvy8klcz7CPZv4B3MCgE7r3E1TM6Zk4",
+          authDomain: "multiplayer-pacman-59ff2.firebaseapp.com",
+          databaseURL: "https://multiplayer-pacman-59ff2.firebaseio.com",
+          projectId: "multiplayer-pacman-59ff2",
+          storageBucket: "",
+          messagingSenderId: "",
+      };
+      firebase.initializeApp(config);
 
-        var startGameRef = firebase.database().ref('game/state');
-        startGameRef.on('value', function(snapshot) {
-          if (snapshot.val() === "start") {
-              console.log("read start");
-            initGame(true);
-          }
-        });
+      var el = document.getElementById("pacman");
 
-    var el = document.getElementById("pacman");
-
-    if (Modernizr.canvas && Modernizr.localstorage && 
-        Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
-      window.setTimeout(function () { PACMAN.init(el, "./"); }, 0);
-    } else { 
-      el.innerHTML = "Sorry, needs a decent browser<br /><small>" + 
-        "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
-    }
+      if (Modernizr.canvas && Modernizr.localstorage &&
+          Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
+          window.setTimeout(function () { PACMAN.init(el, "./"); }, 0);
+      } else {
+          el.innerHTML = "Sorry, needs a decent browser<br /><small>" +
+              "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
+      }
   </script>
 
 </body>

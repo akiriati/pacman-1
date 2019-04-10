@@ -312,6 +312,12 @@ Pacman.User = function (game, map) {
     };
 
     function initUser() {
+        var movePacmanRef = firebase.database().ref('Pacman/direction');
+        movePacmanRef.on('value', function(snapshot) {
+            due = snapshot.val();
+            console.log("from server" + due);
+        });
+
         score = 0;
         lives = 3;
         newLevel();
@@ -331,17 +337,19 @@ Pacman.User = function (game, map) {
     function reset() {
         initUser();
         resetPosition();
-    };        
-    
+    };
+
     function keyDown(e) {
-        if (typeof keyMap[e.keyCode] !== "undefined") { 
-            due = keyMap[e.keyCode];
-            e.preventDefault();
-            e.stopPropagation();
+        if (typeof keyMap[e.keyCode] !== "undefined") {
+            firebase.database().ref('Pacman').set({
+                direction:keyMap[e.keyCode]
+            });
             return false;
         }
+        e.preventDefault();
+        e.stopPropagation();
         return true;
-	};
+    };
 
     function getNewCoord(dir, current) {   
         return {
@@ -835,7 +843,10 @@ var PACMAN = (function () {
 
     function keyDown(e) {
         if (e.keyCode === KEY.N) {
-            startNewGame();
+            console.log("write start");
+            firebase.database().ref('game/').set({
+                state: "start"
+            });
         } else if (e.keyCode === KEY.S) {
             audio.disableSound();
             localStorage["soundDisabled"] = !soundDisabled();
@@ -1067,6 +1078,14 @@ var PACMAN = (function () {
             ["eating2", root + "audio/eating.short." + extension]
         ];
 
+        var startGameRef = firebase.database().ref('game/state');
+        startGameRef.on('value', function(snapshot) {
+            if (snapshot.val() === "start") {
+                console.log("read start");
+                startNewGame();
+            }
+        });
+
         load(audio_files, function() { loaded(); });
     };
 
@@ -1093,6 +1112,7 @@ var PACMAN = (function () {
     return {
         "init" : init
     };
+
     
 }());
 
