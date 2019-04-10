@@ -26,6 +26,13 @@
       a { text-decoration:none; }
     </style>
 
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+<script>
+
+
+</script>
+
+
 </head>
 
 <body>
@@ -42,6 +49,26 @@
   <script src="modernizr-1.5.min.js"></script>
 
   <script>
+
+  // Initialize Firebase
+  var config = {
+        apiKey: "AIzaSyAHzvy8klcz7CPZv4B3MCgE7r3E1TM6Zk4",
+        authDomain: "multiplayer-pacman-59ff2.firebaseapp.com",
+        databaseURL: "https://multiplayer-pacman-59ff2.firebaseio.com",
+        projectId: "multiplayer-pacman-59ff2",
+        storageBucket: "",
+        messagingSenderId: "",
+        };
+        firebase.initializeApp(config);
+        var defaultDatabase = firebase.database();
+
+        var startGameRef = firebase.database().ref('game/state');
+        startGameRef.on('value', function(snapshot) {
+          if (snapshot.val() === "start") {
+              console.log("read start");
+            initGame(true);
+          }
+        });
 
     var el = document.getElementById("pacman");
 

@@ -1,6 +1,7 @@
 /*jslint browser: true, undef: true, eqeqeq: true, nomen: true, white: true */
 /*global window: false, document: false */
 
+
 /*
  * fix looped audio
  * add fruits + levels
@@ -587,7 +588,7 @@ Pacman.Map = function (size) {
     }
     
     function reset() {       
-        map    = Pacman.MAP.clone();
+        map    = cloneMap(Pacman.MAP);
         height = map.length;
         width  = map[0].length;        
     };
@@ -1253,16 +1254,16 @@ Pacman.WALLS = [
      {"line": [10.5, 9.5]}]
 ];
 
-Object.prototype.clone = function () {
-    var i, newObj = (this instanceof Array) ? [] : {};
-    for (i in this) {
+function cloneMap(map) {
+    var i, newObj = (map instanceof Array) ? [] : {};
+    for (i in map) {
         if (i === 'clone') {
             continue;
         }
-        if (this[i] && typeof this[i] === "object") {
-            newObj[i] = this[i].clone();
+        if (map[i] && typeof map[i] === "object") {
+            newObj[i] = cloneMap(map[i]);
         } else {
-            newObj[i] = this[i];
+            newObj[i] = map[i];
         }
     }
     return newObj;
